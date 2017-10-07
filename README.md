@@ -12,7 +12,7 @@ This is a sequence labeler, supports the following tasks:
 How to use it
 -------------
 
-Run **main.py**
+Run **main.py**  
 Main support the following parameters:
 
 * **task** String that define the task **default='NER' choises=['NER','POS']**
