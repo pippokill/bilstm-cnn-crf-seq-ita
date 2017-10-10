@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Apr 30 18:44:04 2017
+Copyright (C) 2017 Pierpaolo Basile, Pierluigi Cassotti
 
-@author: pc-plg
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from keras.models import Model as KerasModel
@@ -38,10 +49,10 @@ class Model(object):
     embedding_char= True
     features=False
     lstm_size=200
-    def themodel(embedding_weights, dictonary_size, MAX_SEQUENCE_LENGTH,MAX_CHARACTER_LENGTH, alfabeth_size, feature_size, tags):    
+    def themodel(embedding_weights, dictonary_size, MAX_SEQUENCE_LENGTH,MAX_CHARACTER_LENGTH, alfabeth_size, feature_size, tags):
        word_input= Input((MAX_SEQUENCE_LENGTH,))
        embed_out=Embedding(dictonary_size+1,
-                                Model.EMBEDDING_WORD_DIM, 
+                                Model.EMBEDDING_WORD_DIM,
                                 weights=[embedding_weights],
                                         input_length=MAX_SEQUENCE_LENGTH, name='word_embedding')(word_input)
        word=TimeDistributed(Flatten())(embed_out)
@@ -60,7 +71,7 @@ class Model(object):
            feature_input=Input((MAX_SEQUENCE_LENGTH,))
            featu= Embedding(feature_size, Model.EMBEDDING_FEATURE_DIM, input_length=MAX_SEQUENCE_LENGTH, name='feature_embedding')(feature_input)
            conc_list.append(featu)
-       if Model.embedding_char or Model.features: 
+       if Model.embedding_char or Model.features:
            themodel= concatenate(conc_list)
        else:
            themodel=embed_out
@@ -78,7 +89,7 @@ class Model(object):
            input_list.append(feature_input)
        model= KerasModel(inputs=input_list,outputs=output)
        return crf,model
-    
+
     def __init__(self, features, feature_dim,embed_char,grad_clipping,char_dim,filters,lstm_size,window,learning_alghoritm, learning_rate, decay,embedding_weights, dictonary_size, MAX_SEQUENCE_LENGTH,MAX_CHARACTER_LENGTH, alfabeth_size, feature_size, tags):
        Model.EMBEDDING_WORD_DIM=embedding_weights.shape[1]
        Model.EMBEDDING_CHAR_DIM=char_dim
@@ -89,7 +100,7 @@ class Model(object):
        Model.embedding_char=embed_char
        Model.features=features
        crf, self.model=Model.themodel(embedding_weights, dictonary_size, MAX_SEQUENCE_LENGTH,MAX_CHARACTER_LENGTH, alfabeth_size,feature_size, tags)
-        # , metrics=[sparse_categorical_accuracy] 
+        # , metrics=[sparse_categorical_accuracy]
        optimizer=None
        if learning_alghoritm=='Adadelta':
            optimizer=Adadelta(clipvalue=grad_clipping)
@@ -98,7 +109,3 @@ class Model(object):
        else:
            optimizer=SGD(lr=learning_rate,decay=decay, momentum=0.9, clipvalue=grad_clipping)
        self.model.compile(loss=crf.sparse_loss, optimizer=optimizer,metrics=[sparse_categorical_accuracy])
-    
-    
-    
-   

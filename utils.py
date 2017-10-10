@@ -1,3 +1,20 @@
+"""
+Copyright (C) 2017 Pierpaolo Basile, Pierluigi Cassotti
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import numpy as np
 import gensim
 import gzip
@@ -116,7 +133,7 @@ def load_word_embedding_dict(embedding, embedding_path, word_alphabet, logger, e
         return embedd_dict, embedd_dim, False
     else:
         raise ValueError("embedding should choose from [word2vec, senna, random, glove]")
-        
+
 
 def iob2(tags,index_to_label,label_to_index):
     for i, tag in enumerate(tags):
@@ -177,7 +194,7 @@ def iob_iobes(tags,index_to_label,label_to_index):
                 new_tags.append(label_to_index[index_to_label[tag].replace('I-', 'E-')])
         else:
             print(tag)
-            raise Exception('Invalid IOB format!')  
+            raise Exception('Invalid IOB format!')
     return new_tags
 
 class ConllevalCallback(Callback):
@@ -215,7 +232,7 @@ class ConllevalCallback(Callback):
             if self.features:
                 X_test= [self.X_words_test,self.X_feature_test]
             else:
-                X_test= self.X_words_test            
+                X_test= self.X_words_test
         pred_proba = self.model.predict(X_test)
         y_pred = np.argmax(pred_proba, axis=2)
         run_conlleval(self.logger,self.X_words_test, self.y_test, y_pred, self.index2word, self.index2chunk, task=self.task, tag_scheme=self.tag_scheme)
@@ -254,4 +271,3 @@ def run_conlleval(logger,X_words_test, y_test, y_pred, index2word, index2chunk, 
     conlleval_stdout = p.communicate(input='\n'.join(conlleval_input).encode())[0]
     logger.write(conlleval_stdout.decode())
     print(conlleval_stdout.decode())
-

@@ -1,16 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun May 21 15:11:52 2017
+Copyright (C) 2017 Pierpaolo Basile, Pierluigi Cassotti
 
-@author: pc-plg
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import data_processor
 from model import Model
 import keras
 import csv
-import numpy as np   
+import numpy as np
 from keras.utils.vis_utils import plot_model
 from utils import iob_iobes, iob2, tag2index, check_tag_scheme,ConllevalCallback, run_conlleval
 import argparse
@@ -106,7 +117,7 @@ for word, index in word_alphabet.iteritems():
 for word, index in label_alphabet.iteritems():
     index_to_label.append(word)
 
- 
+
 tokensfile.close()
 charsfile.close()
 word_alphabet.close()
@@ -123,8 +134,8 @@ if(task=='NER'):
                 if(tag_scheme=='IOBES'):
                     iob_iobes(x[i], index_to_label,label_to_index)
                 i+=1
-            i=0                 
-                            
+            i=0
+
 if embed_char:
     X_tr=[X_train,C_train]
     X_de=[X_dev,C_dev]
@@ -141,14 +152,14 @@ else:
     X_tr=X_train
     X_de=X_dev
     X_te=X_test
-        
-    
+
+
 Y_train=np.expand_dims(Y_train,-1)
 Y_dev=np.expand_dims(Y_dev,-1)
 Y_test=np.expand_dims(Y_test,-1)
 
 
-logger = open('fmeasure.log','w') 
+logger = open('fmeasure.log','w')
 if features:
     feature_size=feature_alphabet.size()
 else:
@@ -156,6 +167,6 @@ else:
 model = Model(features=features, feature_dim=40, embed_char=embed_char,grad_clipping=grad_clipping,char_dim=char_dim,filters=n_filters,lstm_size=lstm_size,window=window,learning_alghoritm=learning_alghoritm, learning_rate=learning_rate, decay=decay,embedding_weights=embedd_table, dictonary_size=len(index_to_token)-1, MAX_SEQUENCE_LENGTH=X_train.shape[1], MAX_CHARACTER_LENGTH=C_train.shape[2], alfabeth_size=char_embedd_table.shape[0]-1,feature_size=feature_size,tags=len(index_to_label))
 plot_model(model.model,'model.png', show_shapes=True);
 tensorboard=keras.callbacks.TensorBoard(log_dir='./logs', histogram_freq=0, write_graph=True, write_images=False, embeddings_freq=1, embeddings_layer_names=['word_embedding','char_embedding'], embeddings_metadata=embeddings_metadata)
-conlleval= ConllevalCallback(logger,X_te,Y_test,index2word=index_to_token, index2chunk= index_to_label, batch_size=batch, task=task, tag_scheme=tag_scheme)   
+conlleval= ConllevalCallback(logger,X_te,Y_test,index2word=index_to_token, index2chunk= index_to_label, batch_size=batch, task=task, tag_scheme=tag_scheme)
 model.model.fit(X_tr, Y_train, validation_data=(X_de, Y_dev),epochs=epochs, batch_size=batch, callbacks=[conlleval,tensorboard])
 logger.close()

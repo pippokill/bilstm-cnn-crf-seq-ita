@@ -1,3 +1,20 @@
+"""
+Copyright (C) 2017 Pierpaolo Basile, Pierluigi Cassotti
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import numpy as np
 import theano
 from alphabet import Alphabet
@@ -21,7 +38,7 @@ def read_conll_sequence_labeling(path, word_alphabet, label_alphabet, feature_al
     :param label_alphabet: alphabet -f labels
     :return: sentences of words and labels, sentences of indexes of words and labels.
     """
-        
+
     word_sentences = []
     label_sentences = []
     feature_sentences= []
@@ -397,7 +414,7 @@ def load_dataset_sequence_labeling(train_path, dev_path, test_path, features=Fal
     logger.info("Maximum length of dev set is %d" % max_length_dev)
     logger.info("Maximum length of test set is %d" % max_length_test)
     logger.info("Maximum length used for training is %d" % max_length)
-    
+
     if fine_tune:
         logger.info("Generating data with fine tuning...")
         return generate_dataset_fine_tune()
