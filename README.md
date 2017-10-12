@@ -11,6 +11,16 @@ If you use this software please cite:
 
 *Pierpaolo Basile, Giovanni Semeraro, Pierluigi Cassotti*. Bi-directional LSTM-CNNs-CRF for Italian Sequence Labeling, Fourth Italian Conference on Computational Linguistics (CLIC-it 2017), 2017.
 
+Requirements
+---------------
+
+* Python 3.6
+* Numpy
+* Tensorflow https://www.tensorflow.org/install/
+* Theano http://deeplearning.net/software/theano/install.html
+* Keras 2.0 https://keras.io/#installation
+* In keras/keras/layers add the CRF layer https://github.com/phipleg/keras/blob/crf/keras/layers/crf.py
+
 How to use it
 ----------------
 
