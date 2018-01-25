@@ -10,7 +10,7 @@ import data_processor
 #from model import Model
 import keras
 import csv
-from model import Model
+from model2 import Model
 import numpy as np   
 from keras.callbacks import EarlyStopping
 from keras.utils.vis_utils import plot_model
