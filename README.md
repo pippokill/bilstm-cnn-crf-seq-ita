@@ -52,3 +52,16 @@ Main supports the following parameters:
 * **grad_clipping** The clip value  **default=5.0**
 * **feature_column** The column index of the feature **default=2**
 * **features** 1 for using features 0 otherwise **default=0**
+
+**main2.py** Additional parameters:
+* **log** Log file for PoS Tagging (Training set)
+* **log2** Log file for PoS Tagging (Development set)
+* **log3** Log file for PoS Tagging (Test set)
+* **log4** Log file for Sentiment (Training set)
+* **log5** Log file for Sentiment (Development set)
+* **log6** Log file for Sentiment (Test set)
+* **senti_train_path** Training file path (sentiment)
+* **senti_test_path** Test file path (sentiment)
+* **sentiment** **default=1** 1 for performing sentiment analysis
+* **k_fold** **default=1** 1 for performing KFOLD5
+* **k_n** **default=1** Specify the partion of training set to use in Development set
