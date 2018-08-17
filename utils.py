@@ -223,7 +223,7 @@ class ConllevalCallback(Callback):
         self.tag_scheme=tag_scheme
 
     def on_epoch_end(self, epoch, logs={}):
-        self.model.save("/models/"+str(epoch)+".h5")
+        self.model.save(str(epoch)+".h5")
         if self.char:
             X_test = [self.X_words_test, self.X_char_test]
             if self.features:
